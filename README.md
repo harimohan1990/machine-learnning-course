@@ -4000,5 +4000,211 @@ You’ve learned:
 
 
 
+  **Data Cleaning with Pandas — Complete Guide (with Examples)**
+
+Data cleaning is one of the most important steps in data analysis. Pandas makes it very efficient with built-in functions for handling missing values, duplicates, inconsistent formats, and more.
+
+Below is a comprehensive guide.
+
+---
+
+# ✅ **1. Importing Pandas & Loading Data**
+
+```python
+import pandas as pd
+
+df = pd.read_csv("data.csv")
+df.head()
+```
+
+---
+
+# ✅ **2. Handling Missing Values**
+
+### 🔹 Check Missing Values
+
+```python
+df.isnull().sum()
+```
+
+### 🔹 Drop Missing Values
+
+```python
+df.dropna(inplace=True)
+```
+
+### 🔹 Fill Missing Values
+
+```python
+df.fillna(0, inplace=True)          # Fill with 0
+df['age'].fillna(df['age'].mean())  # Fill with mean
+df['city'].fillna("Unknown")        # Fill with a string
+```
+
+### 🔹 Forward / Backward Fill
+
+```python
+df.fillna(method='ffill')
+df.fillna(method='bfill')
+```
+
+---
+
+# ✅ **3. Removing Duplicates**
+
+```python
+df.drop_duplicates(inplace=True)
+```
+
+To drop duplicates based on specific columns:
+
+```python
+df.drop_duplicates(subset=['name', 'age'], keep='first')
+```
+
+---
+
+# ✅ **4. Fixing Data Types**
+
+### 🔹 Convert to numeric
+
+```python
+df['price'] = pd.to_numeric(df['price'], errors='coerce')
+```
+
+### 🔹 Convert to datetime
+
+```python
+df['date'] = pd.to_datetime(df['date'], errors='coerce')
+```
+
+### 🔹 Convert object → category
+
+```python
+df['category'] = df['category'].astype('category')
+```
+
+---
+
+# ✅ **5. Renaming Columns**
+
+```python
+df.rename(columns={'OldName': 'NewName'}, inplace=True)
+```
+
+Make all column names lowercase:
+
+```python
+df.columns = df.columns.str.lower()
+```
+
+---
+
+# ✅ **6. Removing Outliers**
+
+### Z-score method
+
+```python
+from scipy import stats
+
+df = df[(np.abs(stats.zscore(df['salary'])) < 3)]
+```
+
+### IQR method
+
+```python
+Q1 = df['salary'].quantile(0.25)
+Q3 = df['salary'].quantile(0.75)
+IQR = Q3 - Q1
+
+df_clean = df[(df['salary'] >= Q1 - 1.5*IQR) & 
+              (df['salary'] <= Q3 + 1.5*IQR)]
+```
+
+---
+
+# ✅ **7. String Cleaning**
+
+### Remove spaces
+
+```python
+df['name'] = df['name'].str.strip()
+```
+
+### Lowercase
+
+```python
+df['city'] = df['city'].str.lower()
+```
+
+### Replace characters
+
+```python
+df['phone'] = df['phone'].str.replace('-', '')
+```
+
+---
+
+# ✅ **8. Filtering Rows**
+
+```python
+df[df['age'] > 30]
+df[df['city'] == 'delhi']
+df[df['salary'].between(50000, 100000)]
+```
+
+---
+
+# ✅ **9. Handling Inconsistent Data**
+
+### Replace wrong values
+
+```python
+df['gender'].replace({'M': 'Male', 'F': 'Female'}, inplace=True)
+```
+
+### Replace multiple values
+
+```python
+df.replace(['NA', 'Null', ''], pd.NA, inplace=True)
+```
+
+---
+
+# ✅ **10. Export Cleaned Data**
+
+```python
+df.to_csv("cleaned_data.csv", index=False)
+```
+
+---
+
+# 📌 **Full Example — Before and After Cleaning**
+
+```python
+df = pd.read_csv("employees.csv")
+
+# 1. Fix nulls
+df['age'] = df['age'].fillna(df['age'].median())
+
+# 2. Remove duplicates
+df = df.drop_duplicates()
+
+# 3. Clean string columns
+df['name'] = df['name'].str.title().str.strip()
+
+# 4. Convert datatypes
+df['joining_date'] = pd.to_datetime(df['joining_date'])
+
+# 5. Handle outliers (IQR)
+Q1 = df['salary'].quantile(0.25)
+Q3 = df['salary'].quantile(0.75)
+IQR = Q3 - Q1
+df = df[(df['salary'] >= Q1 - 1.5 * IQR) & (df['salary'] <= Q3 + 1.5 * IQR)]
+```
+
+
+
+
 
 
