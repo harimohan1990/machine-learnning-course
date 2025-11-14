@@ -4454,7 +4454,7 @@ Not too deep — but good for interviews.
 
 ---
 
-# 🧭 Summary Table (For LinkedIn Readers)
+# 🧭 Summary Table 
 
 | Concept      | Meaning                 | ML Use                              |
 | ------------ | ----------------------- | ----------------------------------- |
