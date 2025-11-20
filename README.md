@@ -4947,6 +4947,133 @@ NumPy's `dot()` or `@` operator both compute the dot product.
 
 ---
 
+#Calculus in machine learning
+
+ Why Derivatives Matter in Machine Learning
+A model has parameters (weights). A loss function tells you how wrong your output is.
+
+You want to change weights so that loss decreases.
+
+Derivative = Slope of loss w.r.t a weight Gradient = Vector of all derivatives
+
+If slope is positive → move weight left. If slope is negative → move weight right. If slope is zero → you’re at a flat/optimal spot.
+
+That’s literally gradient descent.
+
+
+🧠 The Derivatives You Actually Need
+You don’t need full calculus. You need patterns. Here are the key ones ML engineers keep in their head.
+
+
+1. Power Rule
+If
+
+f(x) = x^n
+
+Then
+
+f'(x) = n * x^(n−1)
+
+You’ll use this in:
+
+L2 regularization
+
+Polynomial features
+
+Gradient of squared error
+
+Example: Loss = (y − ŷ)² Derivative w.r.t ŷ = −2(y − ŷ)
+
+
+2. Exponential & Log Derivatives
+Critical for softmax, cross-entropy, normal distributions.
+
+Exponential
+d/dx (e^x) = e^x
+
+Natural log
+d/dx (ln x) = 1/x
+
+Cross-entropy simplifications depend heavily on this.
+
+
+3. Chain Rule (The King of Machine Learning)
+If:
+
+f(g(x))
+
+Then:
+
+f’(x) = f’(g(x)) * g’(x)
+
+Backpropagation is nothing but chain rule repeated hundreds of times.
+
+Example in neural nets:
+
+z = w·x + b
+a = sigmoid(z)
+Loss = L(a)
+
+To compute dL/dw:
+
+dL/dw = (dL/da) * (da/dz) * (dz/dw)
+
+
+4. Sigmoid Derivative
+You must memorize this one:
+
+σ(x) = 1 / (1 + e^(-x))
+σ’(x) = σ(x) * (1 − σ(x))
+
+Used in binary classification and backprop.
+
+
+5. Tanh Derivative
+tanh’(x) = 1 − tanh²(x)
+
+
+6. ReLU Derivative
+Simple but used everywhere:
+
+relu(x) = max(0, x)
+
+relu’(x) = 1 if x > 0
+           0 if x ≤ 0
+
+Makes backprop efficient.
+
+
+7. Softmax Derivative (High-level view)
+You don't need to memorize the heavy formula. But understand the idea:
+
+Softmax outputs a probability distribution.
+
+Changing one logit affects all outputs.
+
+Final gradient simplifies beautifully with cross-entropy:
+
+dL/dz = softmax - one_hot_label
+
+This is why softmax + cross-entropy is standard.
+
+
+📈 Putting It All Together: Gradient Descent
+Weight update:
+
+w_new = w_old − α * (dLoss/dw)
+
+Where α = learning rate.
+
+This is the core loop in:
+
+Linear regression
+
+Logistic regression
+
+Neural networks
+
+Transformers (just on GPU)
+
 
 
 
